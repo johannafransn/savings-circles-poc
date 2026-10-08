@@ -1,83 +1,68 @@
-# Savings Circles PoC — feature plan
+# Community money PoC — feature plan
 
-A static, mobile-first PWA that explores how Circles can support a chama
-(savings and investment group). The demo group, Apwoche Investment Group,
-and all of its members and numbers are fictional.
+## The pitch
 
-Everything is mocked. Data lives in `js/data.js` and is imported statically.
-Actions mutate an in-memory copy that is saved to `localStorage` so the demo
-feels real; "Reset demo" in Profile restores the constants.
+What if your community had its own money, to boost your purchasing power when
+you don't have enough shillings?
 
-## Chama practices the app models
+Every member mints the community currency, 1 per hour. They spend it with each
+other on goods and services: a haircut, a boda ride, fish, tailoring. Every
+trade paid in the community currency is shillings that stay in a member's
+pocket for the things only shillings can buy, like rent and school fees.
 
-- A mandatory welfare amount paid by everyone at each meeting, used only for
-  major sickness or a death in the family.
-- Separate accounts for welfare, savings and development (loans), pooled and
-  kept in a bank account.
-- A shared book of who paid what, every meeting.
-- Loans backed by your own contributions: after a minimum number of months
-  you can borrow a share of what you have put in.
-- A group currency worth about one hour of time, spent between members for
-  services instead of shillings.
+The demo community, Apwoche Investment Group, and all of its members and
+numbers are fictional. This PoC does not try to digitise a chama's book,
+loans or welfare. It is about the Circles features.
 
-## How Circles maps onto a chama
+## How Circles maps onto the app
 
 - **One currency in the app: Apwoche.** Members tap Mint and receive Apwoche,
   1 per hour since their last mint (the PoC caps the mock at 14 days).
 - **Under the hood** each mint creates the member's personal CRC and wraps it
   into the Apwoche Circles group token in the same step. The app never shows
   personal CRC, so members only ever deal with one currency.
-- **Shillings stay in the bank**: welfare, savings and development money stay
-  in KES. Apwoche is a parallel, time-based economy for services.
+- **Membership is trust.** The organiser trusts new people into the group,
+  which is what lets them mint and trade.
+- **Purchasing power is the headline number.** Each listing carries its usual
+  shilling price, so the app can show how many shillings a member kept by
+  paying in Apwoche.
 
 ## Roles and sign-in
 
-Two entry paths from the welcome screen.
-
 1. **Member**
-   - Sign up: enter invite code from admin, name, phone, trade; set a PIN.
+   - Join: invite code, name, phone, what you can offer, PIN.
    - Log in: phone + PIN.
-2. **Chama admin** (chair or treasurer)
-   - Sign up: create a chama (name, token symbol, cadence, welfare / savings /
-     development amounts, bank account, loan rules). Gets an invite code.
+2. **Community organiser**
+   - Start a community: name, currency name, location. Gets an invite code.
    - Log in: phone + PIN.
 
 ## Member features
 
 - **Home**
-  - Apwoche balance.
-  - Mint button with the Apwoche accrued since the last mint.
-  - Welfare reminder: amount and due date of the next meeting, pay now.
-  - Lifetime contributed, months active, loan limit.
-  - Recent activity.
-- **Save (contributions)**
-  - Lifetime total, split by welfare / savings / development.
-  - Month-by-month ledger with paid / missed status.
-  - Make this cycle's contribution.
-  - Request welfare support (sickness or death).
-- **Loans**
-  - Eligibility check (months contributed, outstanding loans).
-  - Limit = 80% of lifetime contributions.
-  - Apply: amount, term, purpose; shows monthly repayment.
-  - Active loan with repayment progress, past applications and status.
-- **Market (Apwoche board)**
-  - Services tab: what members offer for Apwoche (barber, tailoring, …).
-  - Jobs tab: work members want done, paid in Apwoche.
-  - Post a service or a job; pay or accept from a listing.
-- **Profile**: details, trade, invite code, switch demo role, reset demo.
+  - Balance and Mint button with the amount accrued since the last mint.
+  - Shillings kept and currency earned over the last 30 days.
+  - "Spend it nearby": a few things on offer, one tap to pay.
+  - Recent activity, each payment showing the shillings kept.
+- **Market**
+  - Offered: what neighbours sell for Apwoche, with the usual shilling price.
+  - Wanted: help neighbours need, paid in Apwoche. Take a job, get paid when done.
+  - Post an offer or a request.
+  - Pay sheet shows the shillings you keep as you type.
+- **Profile**: details, what I offer, invite a neighbour, demo switches.
 
-## Admin features
+## Organiser features
 
-- **Group dashboard**: pool per account and in the bank, collection rate
-  this cycle, pending requests, send welfare reminder to everyone unpaid.
-- **Members**: who paid this cycle, lifetime contributions, loan status.
-- **Requests**: approve or reject loan applications and welfare claims.
-- **Market**: same board as members.
-- **Profile / settings**: contribution amounts, cadence, loan rules, invite code.
+- **Community**: currency in circulation, members, new currency per day,
+  shillings kept across the community, trades this week, join requests,
+  invite code, recent trades.
+- **Members**: trust or decline people waiting to join; see what each
+  member offers.
+- Wallet, Market and Profile, same as members.
 
 ## Out of scope for the PoC
 
-Real Circles SDK calls, real auth, M-Pesa / bank integration, backend.
+Real Circles SDK calls, real auth, backend, and anything that digitises the
+chama itself (contributions, loans, welfare).
 
 ## Tech
 

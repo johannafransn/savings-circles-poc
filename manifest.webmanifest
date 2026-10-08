@@ -1,7 +1,7 @@
 {
   "name": "Savings Circles",
   "short_name": "Circles",
-  "description": "Chama savings, welfare, loans and a Circles time-bank.",
+  "description": "Your community's own money: mint, spend and earn with neighbours.",
   "start_url": "./#/",
   "scope": "./",
   "display": "standalone",

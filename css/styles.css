@@ -147,7 +147,7 @@ p { margin: 0 0 12px; }
   font-size: 11px; font-weight: 800; color: var(--ink);
   border: 1.5px solid var(--ink); flex-shrink: 0;
 }
-.token.apwoche { background: var(--accent); }
+.token.coin { background: var(--accent); }
 .token.kes { background: #fff; }
 
 /* ---------- Boxes and rows (summary box from the reference) ---------- */
@@ -187,18 +187,6 @@ p { margin: 0 0 12px; }
 .stat .v { font-size: 20px; font-weight: 800; letter-spacing: -0.01em; }
 .stat .k { font-size: 13px; color: var(--muted); }
 
-/* Progress */
-.bar { height: 10px; border: 1.5px solid var(--ink); border-radius: 999px; overflow: hidden; background: #fff; }
-.bar > span { display: block; height: 100%; background: var(--accent); }
-
-/* Split bar for accounts */
-.splitbar { display: flex; height: 14px; border: 1.5px solid var(--ink); border-radius: 999px; overflow: hidden; margin: 12px 0 4px; }
-.splitbar span:nth-child(1) { background: var(--accent); }
-.splitbar span:nth-child(2) { background: var(--ink); }
-.splitbar span:nth-child(3) { background: var(--accent-soft); }
-.legend { display: inline-block; width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid var(--ink); margin-right: 8px; vertical-align: -1px; }
-.legend.l1 { background: var(--accent); } .legend.l2 { background: var(--ink); } .legend.l3 { background: var(--accent-soft); }
-
 /* Avatar */
 .avatar {
   width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
@@ -224,6 +212,7 @@ p { margin: 0 0 12px; }
 .choice .ico svg { width: 22px; height: 22px; }
 .choice.accent .ico { background: var(--accent); }
 .choice .grow { flex: 1; }
+.choice > svg { width: 20px; height: 20px; flex-shrink: 0; }
 .radio-row { display: flex; gap: 8px; flex-wrap: wrap; }
 .radio-row label {
   border: var(--border); border-radius: 999px; padding: 8px 14px; font-weight: 600; font-size: 15px; cursor: pointer;
