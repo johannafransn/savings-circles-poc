@@ -38,10 +38,10 @@ function vOverview() {
   return `<div class="a-head"><div><h1>Overview</h1><div class="muted">${esc(S.community.fullName || S.community.name)} · ${esc(S.community.location)}</div></div>
       <a class="btn sm" href="#/invite">${I.whatsapp} Invite members</a></div>
     <div class="a-stats">
-      <div class="a-stat accent"><div class="v">${coin}${tok(Math.round(circulation))}</div><div class="k">${T()} in circulation</div></div>
-      <div class="a-stat"><div class="v">${S.members.length}</div><div class="k">members</div></div>
-      <div class="a-stat"><div class="v">${trades.length}</div><div class="k">trades this week</div></div>
-      <div class="a-stat"><div class="v">${openReqs}</div><div class="k">open requests</div></div>
+      <a class="a-stat accent" href="#/members" aria-label="${T()} in circulation: see members"><span class="go">${I.chevron}</span><div class="v">${coin}${tok(Math.round(circulation))}</div><div class="k">${T()} in circulation</div></a>
+      <a class="a-stat" href="#/members" aria-label="Members"><span class="go">${I.chevron}</span><div class="v">${S.members.length}</div><div class="k">members</div></a>
+      <a class="a-stat" href="#/trades" aria-label="Trades this week"><span class="go">${I.chevron}</span><div class="v">${trades.length}</div><div class="k">trades this week</div></a>
+      <a class="a-stat" href="#/market?show=requests" aria-label="Open requests"><span class="go">${I.chevron}</span><div class="v">${openReqs}</div><div class="k">open requests</div></a>
     </div>
     <div class="a-cols">
       <div class="a-card"><h2>Recent trades</h2><div class="overflow-x"><table class="a-table">
@@ -76,12 +76,13 @@ function vInvite() {
 
 function vMembers() {
   const rows = [...S.members].sort((a, b) => a.name.localeCompare(b.name));
-  return `<div class="a-head"><div><h1>Members</h1><div class="muted">${S.members.length} people in ${T()}</div></div>
+  const total = S.members.reduce((t, m) => t + m.balance, 0);
+  return `<div class="a-head"><div><h1>Members</h1><div class="muted">${S.members.length} people · ${tok(Math.round(total))} ${T()} in circulation</div></div>
       <a class="btn sm" href="#/invite">${I.plus} Invite</a></div>
     <div class="a-card"><div class="overflow-x"><table class="a-table">
-      <thead><tr><th>Name</th><th>Phone</th><th>Services</th><th>Joined</th><th>How</th><th></th></tr></thead>
+      <thead><tr><th>Name</th><th>Phone</th><th class="num">Balance</th><th>Services</th><th>Joined</th><th>How</th><th></th></tr></thead>
       <tbody>${rows.map((m) => `<tr><td><div class="who">${avatarHtml(m)}${esc(m.name)}${m.id === S.community.adminId ? ' <span class="badge accent">Admin</span>' : ''}</div></td>
-        <td>${esc(m.phone)}</td><td>${S.services.filter((s) => s.memberId === m.id).length}</td><td>${fmtDate(m.joined)}</td>
+        <td>${esc(m.phone)}</td><td class="num">${tok(m.balance)}</td><td>${S.services.filter((s) => s.memberId === m.id).length}</td><td>${fmtDate(m.joined)}</td>
         <td>${m.via === 'link' ? '<span class="badge ok">Link</span>' : '<span class="badge">Founder</span>'}</td>
         <td class="num">${m.id === S.community.adminId ? '' : `<button class="btn sm secondary" data-act="remove-member" data-id="${m.id}">${I.trash} Remove</button>`}</td></tr>`).join('')}</tbody>
     </table></div></div>`;
@@ -95,7 +96,7 @@ function vMarket() {
         <td>${nameOf(s.memberId)}</td><td class="num">${tok(s.price)}</td><td class="small">${(s.days || []).map((d) => d.slice(0, 2)).join(' ')}</td>
         <td class="num"><button class="btn sm secondary" data-act="toggle-service" data-id="${s.id}">${s.hidden ? `${I.eye} Show` : `${I.eyeOff} Hide`}</button></td></tr>`).join('')}</tbody>
     </table></div></div>
-    <div class="a-card"><h2>Requests (${S.requests.filter((r) => r.status !== 'closed').length})</h2><div class="overflow-x"><table class="a-table">
+    <div class="a-card" id="requests"><h2>Requests (${S.requests.filter((r) => r.status !== 'closed').length})</h2><div class="overflow-x"><table class="a-table">
       <thead><tr><th></th><th>Request</th><th>By</th><th class="num">Budget</th><th>Status</th><th></th></tr></thead>
       <tbody>${S.requests.filter((r) => r.status !== 'closed').map((r) => `<tr class="${r.hidden ? 'muted-row' : ''}"><td>${catTile(r.category)}</td><td><strong>${esc(r.title)}</strong><div class="small muted">${esc(r.description || '')}</div></td>
         <td>${nameOf(r.memberId)}</td><td class="num">${tok(r.budget)}</td><td>${r.status === 'open' ? '<span class="badge ok">Open</span>' : `<span class="badge">Taken by ${esc(firstName(member(r.takenBy)) || 'member')}</span>`}</td>
@@ -103,7 +104,19 @@ function vMarket() {
     </table></div></div>`;
 }
 
-const NAV = [['#/overview', 'Overview', I.grid, vOverview], ['#/invite', 'Invite', I.whatsapp, vInvite], ['#/members', 'Members', I.users, vMembers], ['#/market', 'Market', I.market, vMarket]];
+function vTrades() {
+  const weekAgo = Date.now() - 7 * DAY;
+  const pays = S.activity.filter((a) => a.kind === 'pay');
+  const week = pays.filter((a) => new Date(a.when).getTime() >= weekAgo);
+  const volume = week.reduce((t, a) => t + a.amount, 0);
+  return `<div class="a-head"><div><h1>Trades</h1><div class="muted">${week.length} this week · ${tok(volume)} ${T()} changed hands</div></div></div>
+    <div class="a-card"><div class="overflow-x"><table class="a-table">
+      <thead><tr><th>From</th><th>To</th><th>For</th><th class="num">${T()}</th><th>Date</th></tr></thead>
+      <tbody>${pays.map((a) => `<tr class="${new Date(a.when).getTime() >= weekAgo ? '' : 'muted-row'}"><td>${nameOf(a.from)}</td><td>${nameOf(a.to)}</td><td>${esc(a.what || '')}</td><td class="num">${tok(a.amount)}</td><td>${fmtDate(a.when)}</td></tr>`).join('') || '<tr><td colspan="5" class="muted">No trades yet</td></tr>'}</tbody>
+    </table></div><p class="hint">Faded rows are older than a week.</p></div>`;
+}
+
+const NAV = [['#/overview', 'Overview', I.grid, vOverview], ['#/invite', 'Invite', I.whatsapp, vInvite], ['#/members', 'Members', I.users, vMembers], ['#/trades', 'Trades', I.swap, vTrades], ['#/market', 'Market', I.market, vMarket]];
 
 function shell(current, body) {
   const c = S.community;
@@ -145,14 +158,20 @@ const actions = {
 };
 
 /* ---------------------------------------------------------------- router */
+let lastHash = null;
 function render() {
-  const hash = location.hash || '#/overview';
+  const [hash, qs = ''] = (location.hash || '#/overview').split('?');
   if (!S.adminSession) { if (hash !== '#/login') { location.replace('#/login'); return; } $root.innerHTML = vLogin(); return; }
   if (hash === '#/login') { location.replace('#/overview'); return; }
   const nav = NAV.find(([href]) => href === hash);
   if (!nav) { location.replace('#/overview'); return; }
+  const scroll = window.scrollY;
   $root.innerHTML = shell(nav[0], nav[3]());
   document.title = `${nav[1]} · ${S.community.name} Admin`;
+  const show = new URLSearchParams(qs).get('show');
+  if (location.hash !== lastHash) window.scrollTo(0, 0); else window.scrollTo(0, scroll);
+  if (show && location.hash !== lastHash) document.getElementById(show)?.scrollIntoView({ block: 'start' });
+  lastHash = location.hash;
 }
 
 document.addEventListener('click', async (e) => {

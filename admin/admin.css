@@ -1,5 +1,9 @@
 /* Admin site: wide, desktop-first layout on top of the shared tokens. */
-body.admin { display: block; min-height: 100dvh; padding: 0; background: var(--bg); }
+/* The member app centres its phone frame with place-items on body; reset it so
+   the admin shell always spans the full width and never shifts between tabs. */
+html:has(body.admin) { scrollbar-gutter: stable; }
+body.admin { display: block; place-items: normal; min-height: 100dvh; padding: 0; background: var(--bg); }
+#admin { width: 100%; }
 .a-shell { display: grid; grid-template-columns: 248px 1fr; min-height: 100dvh; }
 .a-shell > * { min-width: 0; }
 .a-side { border-right: var(--border); padding: 24px 16px; display: flex; flex-direction: column; gap: 4px; position: sticky; top: 0; height: 100dvh; }
@@ -16,7 +20,15 @@ body.admin { display: block; min-height: 100dvh; padding: 0; background: var(--b
 .a-main h1 { margin: 0 0 4px; }
 .a-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
 .a-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 28px; }
-.a-stat { border: var(--border); border-radius: 14px; padding: 16px 18px; }
+.a-stat { border: var(--border); border-radius: 14px; padding: 16px 18px; display: block; text-decoration: none; color: inherit; transition: transform .08s ease, box-shadow .08s ease; }
+a.a-stat { box-shadow: 0 4px 0 var(--ink); }
+a.a-stat.accent { box-shadow: 0 5px 0 var(--ink); }
+a.a-stat:hover { transform: translateY(-1px); box-shadow: 0 6px 0 var(--ink); }
+a.a-stat:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--ink); }
+a.a-stat:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+.a-stat .go { float: right; color: var(--muted); }
+.a-stat .go svg { width: 18px; height: 18px; }
+.a-stat.accent .go { color: var(--ink); }
 .a-stat.accent { background: var(--accent); box-shadow: 0 5px 0 var(--ink); }
 .a-stat .v { font-size: 28px; font-weight: 800; letter-spacing: -0.02em; display: flex; align-items: center; gap: 8px; }
 .a-stat .k { color: var(--muted); font-size: 14px; font-weight: 500; }
@@ -57,3 +69,4 @@ body.admin .toast { position: fixed; left: 50%; right: auto; bottom: 28px; trans
   .a-cols { grid-template-columns: 1fr; }
   .a-head { flex-direction: column; align-items: flex-start; }
 }
+.a-card[id] { scroll-margin-top: 24px; }
