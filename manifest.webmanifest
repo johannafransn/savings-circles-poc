@@ -1,7 +1,7 @@
 {
-  "name": "Savings Circles",
-  "short_name": "Circles",
-  "description": "Your community's own money: mint, spend and earn with neighbours.",
+  "name": "Apwoche",
+  "short_name": "Apwoche",
+  "description": "Your community's own money. Buy and sell with your neighbours.",
   "start_url": "./#/",
   "scope": "./",
   "display": "standalone",

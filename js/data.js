@@ -1,69 +1,69 @@
-// Fictional mock data for the community money PoC. Names, numbers and
-// balances are made up. Imported statically by the app.
+// Fictional mock data for the Apwoche community money PoC. Names, numbers and
+// balances are made up. Imported statically by both the member app and the
+// admin site.
 //
-// Minting creates each member's personal CRC and wraps it into the community
-// currency in the same step, so the app only ever shows one currency.
-// `kes` is what the same thing usually costs in shillings, used to show how
-// many shillings a member kept by paying in the community currency.
+// 1 Apwoche = 1 KES. Minting creates each member's personal CRC and wraps it
+// into Apwoche in the same step, so the app only ever shows one currency.
 
 export const COMMUNITY = {
   id: 'apwoche',
-  name: 'Apwoche Investment Group',
+  name: 'Apwoche',
+  fullName: 'Apwoche Investment Group',
   location: 'Kisumu, Kenya',
   token: 'Apwoche',
   inviteCode: 'APWOCHE-2041',
-  createdAt: '2023-02-04',
+  adminId: 'm3',
 };
 
+// via: 'founder' (was there from the start) or 'link' (joined with the admin's link).
 export const MEMBERS = [
-  { id: 'm1', name: 'Achieng Otieno', phone: '+254 700 000 001', trade: 'Tailor', role: 'member', joined: '2024-03-01', balance: 86 },
-  { id: 'm2', name: 'Brian Ouma', phone: '+254 700 000 002', trade: 'Barber', role: 'member', joined: '2023-02-04', balance: 140 },
-  { id: 'm3', name: 'Grace Akinyi', phone: '+254 700 000 003', trade: 'Teacher', role: 'organiser', joined: '2023-02-04', balance: 52 },
-  { id: 'm4', name: 'Kevin Odhiambo', phone: '+254 700 000 004', trade: 'Boda boda rider', role: 'member', joined: '2023-06-10', balance: 33 },
-  { id: 'm5', name: 'Mercy Atieno', phone: '+254 700 000 005', trade: 'Cleaner', role: 'member', joined: '2024-01-15', balance: 61 },
-  { id: 'm6', name: 'Samuel Okoth', phone: '+254 700 000 006', trade: 'Fish trader', role: 'member', joined: '2025-11-01', balance: 12 },
-  { id: 'm7', name: 'Faith Adhiambo', phone: '+254 700 000 007', trade: 'Hair salon', role: 'member', joined: '2023-09-20', balance: 98 },
-  { id: 'm8', name: 'Peter Owino', phone: '+254 700 000 008', trade: 'Mechanic', role: 'member', joined: '2023-02-04', balance: 74 },
+  { id: 'm1', name: 'Achieng Otieno', phone: '+254 700 000 001', joined: '2024-03-01', via: 'founder', balance: 640, photo: null },
+  { id: 'm2', name: 'Brian Ouma', phone: '+254 700 000 002', joined: '2023-02-04', via: 'founder', balance: 1480, photo: null },
+  { id: 'm3', name: 'Grace Akinyi', phone: '+254 700 000 003', joined: '2023-02-04', via: 'founder', balance: 520, photo: null },
+  { id: 'm4', name: 'Kevin Odhiambo', phone: '+254 700 000 004', joined: '2023-06-10', via: 'founder', balance: 330, photo: null },
+  { id: 'm5', name: 'Mercy Atieno', phone: '+254 700 000 005', joined: '2024-01-15', via: 'founder', balance: 610, photo: null },
+  { id: 'm6', name: 'Samuel Okoth', phone: '+254 700 000 006', joinedDaysAgo: 12, via: 'link', balance: 120, photo: null },
+  { id: 'm7', name: 'Faith Adhiambo', phone: '+254 700 000 007', joined: '2023-09-20', via: 'founder', balance: 980, photo: null },
+  { id: 'm8', name: 'Peter Owino', phone: '+254 700 000 008', joinedDaysAgo: 4, via: 'link', balance: 740, photo: null },
 ];
 
-// The logged-in demo users per role.
-export const DEMO_USERS = { member: 'm1', organiser: 'm3' };
+// The member the demo logs in as when there is no account on this device.
+export const DEMO_MEMBER = 'm1';
 
-// Hours since each member last minted (1 per hour).
+// Hours since each member last minted (1 Apwoche per hour).
 export const LAST_MINT_HOURS_AGO = { m1: 37, m3: 5 };
 
-// People who asked to join and wait for the organiser to trust them in.
-export const JOIN_REQUESTS = [
-  { id: 'r1', name: 'Otieno Wekesa', trade: 'Carpenter', invitedBy: 'm4', daysAgo: 2 },
-  { id: 'r2', name: 'Lilian Awino', trade: 'Vegetable seller', invitedBy: 'm5', daysAgo: 1 },
-];
+export const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
-// Market. price is in the community currency per unit; kes is the usual shilling price.
+// price is Apwoche per session.
 export const SERVICES = [
-  { id: 's1', memberId: 'm2', title: 'Haircut and shave', price: 1, kes: 150, unit: 'cut', category: 'Grooming', note: 'At my shop in town. Walk in after 2pm.' },
-  { id: 's2', memberId: 'm1', title: 'Clothing repairs & alterations', price: 1, kes: 200, unit: 'hour', category: 'Tailoring', note: 'Hems, zips, school uniforms.' },
-  { id: 's3', memberId: 'm4', title: 'Boda ride within town', price: 0.5, kes: 100, unit: 'ride', category: 'Transport', note: 'Call before 7pm.' },
-  { id: 's4', memberId: 'm7', title: 'Braiding', price: 3, kes: 600, unit: 'session', category: 'Grooming', note: 'Bring your own extensions.' },
-  { id: 's5', memberId: 'm8', title: 'Motorbike service', price: 2, kes: 400, unit: 'hour', category: 'Repairs', note: 'Parts paid in shillings.' },
-  { id: 's6', memberId: 'm6', title: 'Fresh tilapia', price: 2, kes: 350, unit: 'fish', category: 'Food', note: 'Morning catch, order the day before.' },
+  { id: 's1', memberId: 'm2', category: 'grooming', title: 'Haircut and shave', description: 'Clean cut at my shop in town.', price: 150, days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'], hoursPerDay: 8 },
+  { id: 's2', memberId: 'm1', category: 'tailoring', title: 'Clothes repair', description: 'Hems, zips and school uniforms.', price: 200, days: ['Mon', 'Wed', 'Fri'], hoursPerDay: 5 },
+  { id: 's3', memberId: 'm4', category: 'transport', title: 'Boda ride in town', description: 'Quick rides anywhere in town.', price: 100, days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], hoursPerDay: 10 },
+  { id: 's4', memberId: 'm7', category: 'grooming', title: 'Braiding', description: 'Box braids and cornrows.', price: 600, days: ['Fri', 'Sat', 'Sun'], hoursPerDay: 6 },
+  { id: 's5', memberId: 'm8', category: 'repairs', title: 'Motorbike service', description: 'Oil, brakes and chain.', price: 400, days: ['Tue', 'Thu', 'Sat'], hoursPerDay: 6 },
+  { id: 's6', memberId: 'm6', category: 'food', title: 'Fresh tilapia', description: 'Morning catch from the lake.', price: 350, days: ['Mon', 'Wed', 'Fri', 'Sat'], hoursPerDay: 4 },
+  { id: 's7', memberId: 'm5', category: 'cleaning', title: 'House cleaning', description: 'Floors, windows and laundry.', price: 300, days: ['Tue', 'Thu', 'Sat'], hoursPerDay: 6 },
+  { id: 's8', memberId: 'm3', category: 'teaching', title: 'Maths tutoring', description: 'Primary and secondary maths.', price: 250, days: ['Mon', 'Tue', 'Wed', 'Thu'], hoursPerDay: 2 },
 ];
 
-export const JOBS = [
-  { id: 'j1', memberId: 'm2', title: 'Clean my barber shop', reward: 2, kes: 300, unit: 'hours', category: 'Cleaning', when: 'Sat 19 Oct, morning', status: 'open' },
-  { id: 'j2', memberId: 'm6', title: 'Help carry fish crates at the beach', reward: 3, kes: 450, unit: 'hours', category: 'Labour', when: 'Daily 6am', status: 'open' },
-  { id: 'j3', memberId: 'm3', title: 'Tutor two kids in maths', reward: 4, kes: 800, unit: 'hours', category: 'Teaching', when: 'Weekday evenings', status: 'open' },
-  { id: 'j4', memberId: 'm5', title: 'Fix a torn school bag', reward: 1, kes: 150, unit: 'hour', category: 'Tailoring', when: 'This week', status: 'taken', takenBy: 'm1' },
+// Things members need that nobody offers yet. budget is in Apwoche.
+export const REQUESTS = [
+  { id: 'q1', memberId: 'm2', category: 'cleaning', title: 'Clean my barber shop', description: 'Saturday morning, about 2 hours.', budget: 300, status: 'open', daysAgo: 1 },
+  { id: 'q2', memberId: 'm6', category: 'labour', title: 'Carry fish crates', description: 'At the beach, 6am, any day.', budget: 450, status: 'open', daysAgo: 2 },
+  { id: 'q3', memberId: 'm7', category: 'other', title: 'Photos for my salon', description: 'A few nice photos on a phone.', budget: 500, status: 'open', daysAgo: 3 },
+  { id: 'q4', memberId: 'm5', category: 'tailoring', title: 'Fix a school bag', description: 'Torn strap, needs stitching.', budget: 150, status: 'taken', takenBy: 'm1', daysAgo: 5 },
 ];
 
-// kind: mint | out (a payment from memberId to `to`). kes = shilling value of the trade.
-// daysAgo keeps the demo fresh whenever it is opened.
+// kind: 'pay' (from → to) or 'mint'. what = what the payment was for.
 export const ACTIVITY = [
-  { memberId: 'm2', to: 'm1', text: 'paid Achieng 1 Apwoche for a hem', amount: 1, kes: 200, daysAgo: 1, kind: 'out' },
-  { memberId: 'm1', to: 'm2', text: 'paid Brian 1 Apwoche for a haircut', amount: 1, kes: 150, daysAgo: 2, kind: 'out' },
-  { memberId: 'm1', text: 'minted 24 Apwoche', daysAgo: 2, kind: 'mint' },
-  { memberId: 'm7', to: 'm8', text: 'paid Peter 2 Apwoche for a bike service', amount: 2, kes: 400, daysAgo: 3, kind: 'out' },
-  { memberId: 'm1', to: 'm6', text: 'paid Samuel 4 Apwoche for two fish', amount: 4, kes: 700, daysAgo: 4, kind: 'out' },
-  { memberId: 'm4', to: 'm7', text: 'paid Faith 3 Apwoche for braiding', amount: 3, kes: 600, daysAgo: 5, kind: 'out' },
-  { memberId: 'm1', to: 'm4', text: 'paid Kevin 1 Apwoche for two boda rides', amount: 1, kes: 200, daysAgo: 6, kind: 'out' },
-  { memberId: 'm5', to: 'm1', text: 'paid Achieng 2 Apwoche for altering a dress', amount: 2, kes: 400, daysAgo: 10, kind: 'out' },
+  { kind: 'pay', from: 'm2', to: 'm1', amount: 200, what: 'Clothes repair', daysAgo: 1 },
+  { kind: 'pay', from: 'm1', to: 'm2', amount: 150, what: 'Haircut and shave', daysAgo: 2 },
+  { kind: 'mint', from: 'm1', amount: 24, daysAgo: 2 },
+  { kind: 'pay', from: 'm7', to: 'm8', amount: 400, what: 'Motorbike service', daysAgo: 3 },
+  { kind: 'pay', from: 'm1', to: 'm6', amount: 700, what: 'Fresh tilapia', daysAgo: 4 },
+  { kind: 'pay', from: 'm4', to: 'm7', amount: 600, what: 'Braiding', daysAgo: 5 },
+  { kind: 'pay', from: 'm1', to: 'm4', amount: 200, what: 'Boda ride in town', daysAgo: 6 },
+  { kind: 'mint', from: 'm1', amount: 48, daysAgo: 7 },
+  { kind: 'pay', from: 'm5', to: 'm1', amount: 400, what: 'Clothes repair', daysAgo: 10 },
 ];

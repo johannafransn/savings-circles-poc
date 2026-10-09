@@ -1,11 +1,16 @@
 // App-shell cache so the PoC opens offline once installed.
-const CACHE = 'savings-circles-v3';
+const CACHE = 'savings-circles-v4';
 const SHELL = [
   './',
   './index.html',
   './css/styles.css',
   './js/app.js',
   './js/data.js',
+  './js/store.js',
+  './admin/',
+  './admin/index.html',
+  './admin/admin.css',
+  './admin/admin.js',
   './js/icons.js',
   './manifest.webmanifest',
   './icons/icon.svg',

@@ -1,13 +1,17 @@
-# Savings Circles PoC
+# Apwoche community money PoC
 
 What if your community had its own money, to boost your purchasing power when
-you don't have enough shillings? A static, mobile-first PWA exploring that
-idea on [Circles](https://aboutcircles.com/). The community, members and
-numbers in the demo are fictional.
+you don't have enough shillings? A static PWA exploring that idea on
+[Circles](https://aboutcircles.com/). The community, members and numbers in
+the demo are fictional.
 
-Live demo: https://johannafransn.github.io/savings-circles-poc/
+| | Link |
+| --- | --- |
+| Member join link (start here) | https://johannafransn.github.io/savings-circles-poc/#/join?ref=APWOCHE-2041 |
+| Member app | https://johannafransn.github.io/savings-circles-poc/ |
+| Admin site | https://johannafransn.github.io/savings-circles-poc/admin/ |
 
-See [PLAN.md](PLAN.md) for the feature plan and how Circles maps onto the app.
+See [PLAN.md](PLAN.md) for the feature plan.
 
 ## Run locally
 
@@ -15,30 +19,28 @@ ES modules need to be served over HTTP, not opened from `file://`.
 
 ```sh
 python3 -m http.server 8731
-# open http://localhost:8731
+# member join link: http://localhost:8731/#/join?ref=APWOCHE-2041
+# admin site:       http://localhost:8731/admin/
 ```
-
-On desktop the app renders in a phone-sized frame. On a phone, use
-"Add to Home Screen" to install it as a PWA.
 
 ## Demo paths
 
-- **Member**: Welcome, "Join my community", Log in. You are Achieng, a tailor.
-  Mint Apwoche, see the shillings you kept, pay Brian for a haircut, take a
-  job, offer a service.
-- **Organiser**: Welcome, "Start a community", Log in. You are Grace.
-  See the community's circulation and shillings kept, trust new members in.
-- Profile has "Switch to organiser/member view" and "Reset demo data".
-
-State is saved in `localStorage`. Mocked data lives in `js/data.js`.
+- **New member:** open the join link, save a passkey (or use phone + PIN),
+  add your name and a service or two. You land on Home.
+- **Existing member:** open the member app, tap "I already joined", then log
+  in. Without an account on this device it logs in as Achieng, a tailor.
+- **Admin:** open the admin site and log in as Grace. Copy or share the join
+  link, see who joined, remove members, hide listings.
+- Both apps share state in this browser. "Reset demo" restores the mock data.
 
 ## Files
 
 | Path | What |
 | --- | --- |
-| `index.html` | App shell |
-| `css/styles.css` | Design tokens and components (accent `#fe5511` from wallet) |
+| `index.html`, `js/app.js` | Member app |
+| `admin/` | Admin site |
+| `js/store.js` | Shared state and helpers |
 | `js/data.js` | Fictional mock data |
-| `js/app.js` | Hash router, views, actions |
-| `js/icons.js` | Inline SVG icons |
+| `js/icons.js` | Icons and service categories |
+| `css/styles.css` | Design tokens and components (accent `#fe5511` from wallet) |
 | `manifest.webmanifest`, `sw.js`, `icons/` | PWA |
